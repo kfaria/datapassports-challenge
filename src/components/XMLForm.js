@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-
+import { create as xmlbuilder } from 'xmlbuilder2'
+import fileDownload from 'js-file-download'
+import logo from '../DataPassportsLogo.svg'
 function XMLForm() {
   const [validated, setValidated] = useState(false)
   const handleSubmit = (event) => {
@@ -10,12 +12,24 @@ function XMLForm() {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      const xml = xmlbuilder({ version: '1.0' })
+        .ele('user')
+          .ele('firstName').txt(event.target.formFirstName.value).up()
+          .ele('lastName').txt(event.target.formLastName.value).up()
+          .ele('email').txt(event.target.formEmail.value).up()
+          .ele('password').txt('HIDDEN').up()
+        .up()
+      const xmlDoc = xml.end({ prettyPrint: true })
+      fileDownload(xmlDoc, 'download.xml')
+      console.log(xmlDoc)
     }
     setValidated(true);
   };
 
   return (
     <Card style={{ width: '20rem' }}>
+      <Card.Img variant="top" style={{ padding: '1rem' }} src={logo} />
       <Card.Body>
         <Card.Title>Technical Challenge</Card.Title>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
