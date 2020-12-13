@@ -4,12 +4,14 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { create as xmlbuilder } from 'xmlbuilder2'
 import fileDownload from 'js-file-download'
-import logo from '../DataPassportsLogo.svg'
+import logo from '../assets/images/DataPassportsLogo.svg'
+
 function XMLForm() {
   const [validated, setValidated] = useState(false)
+  
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (!form.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
     } else {
@@ -18,11 +20,10 @@ function XMLForm() {
           .ele('firstName').txt(event.target.formFirstName.value).up()
           .ele('lastName').txt(event.target.formLastName.value).up()
           .ele('email').txt(event.target.formEmail.value).up()
-          .ele('password').txt('HIDDEN').up()
+          .ele('id').txt('HIDDEN').up()
         .up()
       const xmlDoc = xml.end({ prettyPrint: true })
       fileDownload(xmlDoc, 'download.xml')
-      console.log(xmlDoc)
     }
     setValidated(true);
   };
@@ -47,8 +48,8 @@ function XMLForm() {
             <Form.Control.Feedback type="invalid">Please enter a valid email</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formPassword">
-            <Form.Control type="password" placeholder="Enter password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/>
-            <Form.Text className="text-muted" style={{ fontSize: '0.75rem'}} >Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</Form.Text>
+            <Form.Control type="password" placeholder="Enter password" required pattern=".{8,}"/>
+            <Form.Text className="text-muted" style={{ fontSize: '0.75rem'}} >Must contain at least 8 or more characters</Form.Text>
           </Form.Group>
           <Button type="submit">Download XML</Button>
         </Form>
