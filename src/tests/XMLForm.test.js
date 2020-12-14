@@ -1,4 +1,4 @@
-import { fireEvent, getByTestId, render, screen } from '@testing-library/react';
+import { fireEvent, getByTestId, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import XMLForm from '../components/XMLForm'
 
@@ -64,8 +64,18 @@ test('Form with missing last name : invalid', () => {
   expect(getByTestId(document.documentElement, 'xml-form')).toBeInvalid()
 })
 
+test('Form submit handler', () => {
+  render(<XMLForm />)
+  userEvent.type(screen.getByTestId('required-firstName'), 'Lorem')
+  userEvent.type(screen.getByTestId('required-lastName'), 'Ipsum')
+  userEvent.type(screen.getByTestId('required-email'), 'LoremIpsum@gmail.com')
+  userEvent.type(screen.getByTestId('required-password'), 'password')
+  fireEvent.submit(getByTestId(document.documentElement, 'xml-form'))
+  expect(screen.getByTestId('downloaded')).toBeTruthy()
+})
+
 test('Assume valid form, mock onSubmit and submit', () => {
-  render(<XMLForm />);
+  render(<XMLForm />)
   const handleSubmit = jest.fn()
   getByTestId(document.documentElement, 'xml-form').onsubmit = handleSubmit
   fireEvent.submit(getByTestId(document.documentElement, 'xml-form'))
