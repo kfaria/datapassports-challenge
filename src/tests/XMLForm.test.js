@@ -64,11 +64,10 @@ test('Form with missing last name : invalid', () => {
   expect(getByTestId(document.documentElement, 'xml-form')).toBeInvalid()
 })
 
-test('Submit valid form', () => {
-  const { getByText } = render(<XMLForm />);
-  userEvent.type(screen.getByTestId('required-firstName'), 'Lorem')
-  userEvent.type(screen.getByTestId('required-lastName'), 'Ipsum')
-  userEvent.type(screen.getByTestId('required-email'), 'LoremIpsum@gmail.com')
-  userEvent.type(screen.getByTestId('required-password'), 'password')
-  fireEvent.click(getByText(/Download XML/i))
+test('Assume valid form, mock onSubmit and submit', () => {
+  render(<XMLForm />);
+  const handleSubmit = jest.fn()
+  getByTestId(document.documentElement, 'xml-form').onsubmit = handleSubmit
+  fireEvent.submit(getByTestId(document.documentElement, 'xml-form'))
+  expect(handleSubmit).toHaveBeenCalled()
 })
