@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Toast from 'react-bootstrap/Toast'
 import { create as xmlbuilder } from 'xmlbuilder2'
 import fileDownload from 'js-file-download'
 import logo from '../assets/images/DataPassportsLogo.svg'
 
 function XMLForm() {
   const [validated, setValidated] = useState(false)
+  const [complete, setComplete] = useState(false)
   
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
+    const form = event.currentTarget
     if (!form.checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
+      setValidated(false)
     } else {
       const { formFirstName, formLastName, formEmail, formPassword } = event.target.elements
       const xml = xmlbuilder({ version: '1.0' })
@@ -25,9 +26,12 @@ function XMLForm() {
         .up()
       const xmlDoc = xml.end({ prettyPrint: true })
       fileDownload(xmlDoc, 'download.xml')
+      setComplete(true)
     }
-    setValidated(true);
-  };
+      setValidated(true)
+      event.preventDefault()
+      event.stopPropagation()
+  }
 
   return (
     <Card style={{ width: '20rem' }}>
@@ -46,13 +50,24 @@ function XMLForm() {
           <Form.Group controlId="formEmail">
             <Form.Control type="email" placeholder="Enter email" required data-testid="required-email"/>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">Please enter a valid email</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Please enter a valid email!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formPassword">
             <Form.Control type="password" placeholder="Enter password" required data-testid="required-password" pattern=".{8,}"/>
             <Form.Text className="text-muted" style={{ fontSize: '0.75rem'}} >Must contain at least 8 or more characters</Form.Text>
           </Form.Group>
-          <Button type="submit">Download XML</Button>
+          <Form.Group controlId="formButtons">
+            <Button type="submit" style={{ marginRight: '1rem' }}>Download XML</Button>
+            <Button type="reset" onClick={() => {
+              setComplete(false)
+              setValidated(false)
+            }}>Clear Form</Button>
+          </Form.Group>
+          { complete &&
+            <Toast style={{marginTop: '1rem'}}>
+              <Toast.Body data-testid="downloaded">File Downloaded</Toast.Body>
+            </Toast>
+          }
         </Form>
       </Card.Body>
     </Card>
