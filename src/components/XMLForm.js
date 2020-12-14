@@ -33,22 +33,22 @@ function XMLForm() {
       <Card.Img variant="top" style={{ padding: '1rem' }} src={logo} />
       <Card.Body>
         <Card.Title>Technical Challenge</Card.Title>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit} data-testid="xml-form">
           <Form.Group controlId="formFirstName">
-            <Form.Control type="text" placeholder="Enter first name" required/>
+            <Form.Control type="text" placeholder="Enter first name" required data-testid="required-firstName"/>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formLastName">
-            <Form.Control type="text" placeholder="Enter last name" required/>
+            <Form.Control type="text" placeholder="Enter last name" required data-testid="required-lastName"/>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formEmail">
-            <Form.Control type="email" placeholder="Enter email" required/>
+            <Form.Control type="email" placeholder="Enter email" required data-testid="required-email"/>
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">Please enter a valid email</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="formPassword">
-            <Form.Control type="password" placeholder="Enter password" required pattern=".{8,}"/>
+            <Form.Control type="password" placeholder="Enter password" required data-testid="required-password" pattern=".{8,}"/>
             <Form.Text className="text-muted" style={{ fontSize: '0.75rem'}} >Must contain at least 8 or more characters</Form.Text>
           </Form.Group>
           <Button type="submit">Download XML</Button>
