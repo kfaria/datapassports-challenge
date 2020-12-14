@@ -4,7 +4,7 @@
 
 To install the app:
 
-### npm install
+### `npm install`
 
 In the project directory, you can run:
 
