@@ -1,5 +1,7 @@
 # DataPassports Technical Challenge Interview
 
+A simple web app that asks a user for account details and saves the information to an xml file.
+
 ## Available Scripts
 
 To install the app:
