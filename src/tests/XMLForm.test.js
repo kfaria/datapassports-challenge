@@ -1,4 +1,4 @@
-import { getByTestId, render, screen } from '@testing-library/react';
+import { fireEvent, getByTestId, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import XMLForm from '../components/XMLForm'
 
@@ -62,4 +62,13 @@ test('Form with missing last name : invalid', () => {
   userEvent.type(screen.getByTestId('required-email'), 'LoremIpsum@gmail.com')
   userEvent.type(screen.getByTestId('required-password'), 'password')
   expect(getByTestId(document.documentElement, 'xml-form')).toBeInvalid()
+})
+
+test('Submit valid form', () => {
+  const { getByText } = render(<XMLForm />);
+  userEvent.type(screen.getByTestId('required-firstName'), 'Lorem')
+  userEvent.type(screen.getByTestId('required-lastName'), 'Ipsum')
+  userEvent.type(screen.getByTestId('required-email'), 'LoremIpsum@gmail.com')
+  userEvent.type(screen.getByTestId('required-password'), 'password')
+  fireEvent.click(getByText(/Download XML/i))
 })

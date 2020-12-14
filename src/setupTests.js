@@ -3,3 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+// Added to mock downloading the xml file
+// required since window.URL.createObjectURL is not yet available in jest-dom
+window.URL.createObjectURL = function() {};

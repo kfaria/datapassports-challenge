@@ -15,12 +15,13 @@ function XMLForm() {
       event.preventDefault();
       event.stopPropagation();
     } else {
+      const { formFirstName, formLastName, formEmail, formPassword } = event.target.elements
       const xml = xmlbuilder({ version: '1.0' })
         .ele('user')
-          .ele('firstName').txt(event.target.formFirstName.value).up()
-          .ele('lastName').txt(event.target.formLastName.value).up()
-          .ele('email').txt(event.target.formEmail.value).up()
-          .ele('id').txt('HIDDEN').up()
+          .ele('firstName').txt(formFirstName.value).up()
+          .ele('lastName').txt(formLastName.value).up()
+          .ele('email').txt(formEmail.value).up()
+          .ele('password').txt(formPassword.value).up()
         .up()
       const xmlDoc = xml.end({ prettyPrint: true })
       fileDownload(xmlDoc, 'download.xml')
